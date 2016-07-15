@@ -23,7 +23,7 @@ function main() {
 		});
 
 		//read
-		var cat2 = new Item('576dcdf6d2f84f7f3b0203b6');
+		/*var cat2 = new Item('576dcdf6d2f84f7f3b0203b6');
 		cat2.get().then(function (data) {
 			console.log('get', cat2.data);
 		}).error(function (reason) {
@@ -45,7 +45,7 @@ function main() {
 			console.log('update', cat4.data);
 		}).error(function (reason) {
 			console.log(reason);
-		});
+		});*/
 
 		//find
 		var cat = new Item();

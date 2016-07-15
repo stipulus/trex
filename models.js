@@ -1,6 +1,6 @@
 if(typeof require === 'function') {
 	trex = require('./trex');
-	trex.api.config(require('../config').api);
+	trex.api.config(require('./config').api);
 }
 
 var Item = trex.api.Model.prototype.extend({
