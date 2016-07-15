@@ -1,0 +1,52 @@
+.modal-background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.45);
+    z-index: 2;
+}
+
+.modal {
+    border-radius: 2px;
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    width: 400px;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    background-color: white;
+    box-shadow: 0 0 10px black;
+}
+
+.modal .body {
+    padding: 18px;
+}
+
+.modal .header {
+	height: 42px;
+    background-color: darkgray;
+    color: white;
+    padding: 4px 10px;
+    text-align: left;
+}
+
+.modal .header h4 {
+	display: inline;
+    font-size: 22px;
+    padding: 1px;
+    line-height: 1.65;
+}
+
+.modal .header i {
+    float: right;
+	font-size: 23px;
+    margin-top: 2px;
+    transition: transform 1.5s;
+    cursor: pointer;
+}
+
+.modal .header i:hover {
+	transform: rotate(80deg);
+}

@@ -1,0 +1,17 @@
+{
+  "name" : "trex",
+  "version" : "0.0.1",
+  "main" : "./trex.js",
+  "author" : {
+    "name" : "Tyler W. Chase-Nason",
+    "email" : "tyler@proeditors.com"
+  },
+  "dependencies" : {
+    "express" : "*",
+    "mongoose" : "*",
+    "mysql" : "*",
+    "crypto-js":"*",
+    "body-parser":"*",
+    "jsonwebtoken": "*"
+  }
+}
