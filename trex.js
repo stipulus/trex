@@ -1,118 +1,6 @@
 var trex = (function () {
     var isNode = (typeof document === 'undefined' && typeof module !== 'undefined' && module.exports);
 
-    var safeTimeout = {
-        running: false,
-        interval: 100,
-        syncInterval: 3000,
-        current:0,
-        last:0,
-        startTime:0,
-        waiting:{},
-        start: function () {
-            this.running = true;
-            this.startTime = (new Date()).getTime();
-            this.startTime -= this.startTime % this.interval;
-            this.current = this.startTime;
-            this.run();
-        },
-        run: function () {
-            //console.log(this.running);
-            if(this.running) {
-                var diff = 0;
-                if(this.current % this.syncInterval === 0) {
-                    var current = (new Date()).getTime();
-                    if(current >= this.last) this.stop();
-                    while(this.current < current-this.interval)
-                        this.current += this.interval;
-                    diff = current-this.current;
-                    //console.log(this.current,current,diff,this.interval-diff);
-                }
-                //console.log(this.current-(new Date()).getTime(),diff);
-                setTimeout(function () {
-                    safeTimeout.run()
-                },this.interval-diff);
-                this.current += this.interval;
-                this.call();
-            }
-        },
-        call: function () {
-            if(this.waiting[this.current])
-                while(this.waiting[this.current].length > 0)
-                    this.waiting[this.current].pop()();
-        },
-        stop: function () {
-            this.running = false;
-        },
-        /**
-         * Add a new timeout event to the save timeout object
-         * @memberOf Reflection.safeTimeout
-         * @param {Function} fun  Function to be executed
-         * @param {Number} time Milliseconds until fun is executed
-         * @return {Object} hash Data that can be used to uniquely identify this timeout event
-         */
-        set: function (fun,time) {
-            time = time || 0;
-            if(typeof time === 'function' && typeof fun === 'number') {
-                var temp = fun;
-                fun = time;
-                time = temp;
-            }
-            time = (new Date()).getTime()+time;
-            time -= time % this.interval;
-
-            if(time > this.last)
-                this.last = time;
-
-            if(!this.waiting[time])
-                this.waiting[time] = new Array();
-            this.waiting[time].push(fun);
-
-            if(!this.running) this.start();
-
-            return {time:time,i:this.waiting[time].length-1};
-        },
-        /**
-         * Remove timeoutevent
-         * @memberOf Reflection.safeTimeout
-         * @param  {Object} hash Data returned from set used to uniquely identify the timeout event
-         */
-        remove: function (hash) {
-            if(this.waiting[hash.time])
-                this.waiting[hash.time].splice(hash.i,1);
-        }
-    };
-
-    var rand = {
-        len: 100,
-        idLen:7,
-        chars: 'abacdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
-        /**
-         * Generate string
-         * @memberOf Reflection.rand
-         * @param  {Number} len Length of string to generate
-         * @return {String}     Random string
-         */
-        gen: function (len) {
-            len = len || this.len;
-            var str = this.chars.charAt(Math.floor(Math.random()*charlen-10));
-            var charlen = this.chars.length;
-            for(var i = len;i > 1;i--)
-                str += this.chars.charAt(Math.floor(Math.random()*charlen));
-            return str;
-        },
-        getId: function () {
-            var str = '';
-            var charlen = this.chars.indexOf('1')-1;
-            for(var i = this.idLen;i > 0;i--)
-                str += this.chars.charAt(Math.floor(Math.random()*charlen));
-            if($('#'+str).length > 0)
-                return this.getId();
-            else
-                return str;
-        }
-    };
-
     var oopi = {};
     (function () {
         var pub = oopi;
@@ -334,6 +222,118 @@ var trex = (function () {
             this.set(res);
         }
     });
+
+    var safeTimeout = {
+        running: false,
+        interval: 100,
+        syncInterval: 3000,
+        current:0,
+        last:0,
+        startTime:0,
+        waiting:{},
+        start: function () {
+            this.running = true;
+            this.startTime = (new Date()).getTime();
+            this.startTime -= this.startTime % this.interval;
+            this.current = this.startTime;
+            this.run();
+        },
+        run: function () {
+            //console.log(this.running);
+            if(this.running) {
+                var diff = 0;
+                if(this.current % this.syncInterval === 0) {
+                    var current = (new Date()).getTime();
+                    if(current >= this.last) this.stop();
+                    while(this.current < current-this.interval)
+                        this.current += this.interval;
+                    diff = current-this.current;
+                    //console.log(this.current,current,diff,this.interval-diff);
+                }
+                //console.log(this.current-(new Date()).getTime(),diff);
+                setTimeout(function () {
+                    safeTimeout.run()
+                },this.interval-diff);
+                this.current += this.interval;
+                this.call();
+            }
+        },
+        call: function () {
+            if(this.waiting[this.current])
+                while(this.waiting[this.current].length > 0)
+                    this.waiting[this.current].pop()();
+        },
+        stop: function () {
+            this.running = false;
+        },
+        /**
+         * Add a new timeout event to the save timeout object
+         * @memberOf Reflection.safeTimeout
+         * @param {Function} fun  Function to be executed
+         * @param {Number} time Milliseconds until fun is executed
+         * @return {Object} hash Data that can be used to uniquely identify this timeout event
+         */
+        set: function (fun,time) {
+            time = time || 0;
+            if(typeof time === 'function' && typeof fun === 'number') {
+                var temp = fun;
+                fun = time;
+                time = temp;
+            }
+            time = (new Date()).getTime()+time;
+            time -= time % this.interval;
+
+            if(time > this.last)
+                this.last = time;
+
+            if(!this.waiting[time])
+                this.waiting[time] = new Array();
+            this.waiting[time].push(fun);
+
+            if(!this.running) this.start();
+
+            return {time:time,i:this.waiting[time].length-1};
+        },
+        /**
+         * Remove timeoutevent
+         * @memberOf Reflection.safeTimeout
+         * @param  {Object} hash Data returned from set used to uniquely identify the timeout event
+         */
+        remove: function (hash) {
+            if(this.waiting[hash.time])
+                this.waiting[hash.time].splice(hash.i,1);
+        }
+    };
+
+    var rand = {
+        len: 100,
+        idLen:7,
+        chars: 'abacdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+        /**
+         * Generate string
+         * @memberOf Reflection.rand
+         * @param  {Number} len Length of string to generate
+         * @return {String}     Random string
+         */
+        gen: function (len) {
+            len = len || this.len;
+            var str = this.chars.charAt(Math.floor(Math.random()*charlen-10));
+            var charlen = this.chars.length;
+            for(var i = len;i > 1;i--)
+                str += this.chars.charAt(Math.floor(Math.random()*charlen));
+            return str;
+        },
+        getId: function () {
+            var str = '';
+            var charlen = this.chars.indexOf('1')-1;
+            for(var i = this.idLen;i > 0;i--)
+                str += this.chars.charAt(Math.floor(Math.random()*charlen));
+            if($('#'+str).length > 0)
+                return this.getId();
+            else
+                return str;
+        }
+    };
 
     var Thread;
     if(!isNode)

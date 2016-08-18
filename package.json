@@ -6,6 +6,10 @@
     "name" : "Tyler W. Chase-Nason",
     "email" : "tyler@proeditors.com"
   },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/stipulus/trex.git"
+  },
   "dependencies" : {
     "express" : "*",
     "mongoose" : "*",

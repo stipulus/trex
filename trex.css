@@ -11,13 +11,14 @@
 .modal {
     border-radius: 2px;
     position: fixed;
-    left: 50%;
+    left: 49%;
     top: 40%;
     width: 400px;
     transform: translate(-50%, -50%);
     z-index: 3;
     background-color: white;
     box-shadow: 0 0 10px black;
+    max-width: 90%;
 }
 
 .modal .body {
