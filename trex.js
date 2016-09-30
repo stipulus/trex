@@ -208,6 +208,7 @@ var trex = (function () {
             d.setTime(d.getTime() + (this.expire*24*60*60*1000));
             var expires = "expires="+d.toUTCString();
             var str = this.name+'='+this.value+'; '+expires;
+            if(this.path) str += "; path="+this.path;
             if (isNode) {
                 //res['Set-Cookie'] = str;
                 res.append('Set-Cookie', str);
@@ -524,6 +525,7 @@ var trex = (function () {
             template: {},
             construct: function (parentHurdle) {
                 var component = this;
+                if(parentHurdle && parentHurdle instanceof Hurdle) parentHurdle.set();
                 this.hurdle = new Hurdle(function () {
                     component.applyTemplate();
                     if(parentHurdle && parentHurdle instanceof Hurdle) parentHurdle.complete();
