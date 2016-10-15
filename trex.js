@@ -1416,73 +1416,44 @@ var trex = (function () {
     })();
 
     var nav = {
-        landing: null,
-        $nocache: null,
-        $body: null,
-        pages: {},
-        nocachePages: {},
-        current: '',
-        init: function ($body) {
-            window.onhashchange = function () {
-                var path = location.hash.substr(1);
-                if(!nav.current) {
-                    $('nocache').empty();
-                } else if(nav.current !== path) {
-                    var hurdle = new trex.Hurdle();
-                    $('body').children().hide();
-                    if(typeof nav.pages[nav.current].pause === 'function') {
-                        nav.pages[nav.current].pause();
-                    } 
-                    if(path) {
-                        nav.current = path;
-                        hurdle.set();
-                        if(typeof nav.pages[nav.current].resume === 'function') {
-                            nav.pages[nav.current].resume().then(function () {
-                                hurdle.complete();
-                            });
-                        } else {
-                            hurdle.complete();
-                        }
-                        hurdle.then(function () {
-                            nav.pages[nav.current].$elem.show();
-                        });
-                    } else {
-                        hurdle.set();
-                        if(typeof nav.landing.resume === 'function') {
-                            nav.landing.resume().then(function () {
-                                hurdle.complete();
-                            });
-                        } else {
-                            hurdle.complete();
-                        }
-                        hurdle.then(function () {
-                            nav.landing.show();
-                        });
-                    }
-                }
+        init: function () {
+            window.onhashchange = function() {
+                nav.to(location.hash.substr(1));
             }
-            if(body && body.length > 0) {
-                this.$body = $body;
-            } else {
-                this.$body = $('body');
-            }
-            this.$nocache = $('<div class="nocache">NO CACHE</div>');
-            this.$body.append(this.$nocache);
-            this.$nocache.hide();
         },
-        add: function (path, obj, nocache) {
-            if(nocache) {
-                //obj = class
-                this.nocachePages[path] = obj;
-            } else {
-                this.pages[path] = obj;
-                if(!this.landing) this.landing = this.pages[path];
-            }
+        paths: {},
+        cache: {},
+        addPath: function (name,Component) {
+            this.paths[name] = Component;
         },
         to: function (path) {
-            location.hash = path;
+            $('body section').children().hide();
+            var arr = path.split('/');
+            if(nav.paths[arr[0]]) {
+                if(arr[1]) {
+                    if(!nav.cache[path]) {
+                        $('body > .loading').show();
+                        var hurdle = new trex.Hurdle(function () {
+                            $('body > .loading').hide();
+                        });
+                        nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3]);
+                        $('body section').append(nav.cache[path].$elem);
+                    }
+                } else if(!nav.cache[path]) {
+                    $('body > .loading').show();
+                    var hurdle = new trex.Hurdle(function () {
+                        $('body > .loading').hide();
+                    });
+                    nav.cache[path] = new nav.paths[arr[0]](hurdle);
+                    $('body section').append(nav.cache[path].$elem);
+                }
+
+                nav.cache[path].$elem.show();
+            } else {
+                location.hash = town.landing || 'board';
+            }
         }
-    };
+    }
 
     function getSafeStr (str) {
         var allowedFirst = "abacdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
