@@ -1420,10 +1420,13 @@ var trex = (function () {
             window.onhashchange = function() {
                 nav.to(location.hash.substr(1));
             }
+            nav.to(location.hash.substr(1));
         },
+        default:null,
         paths: {},
         cache: {},
         addPath: function (name,Component) {
+            if(!nav.default) nav.default = name;
             this.paths[name] = Component;
         },
         to: function (path) {
@@ -1450,7 +1453,7 @@ var trex = (function () {
 
                 nav.cache[path].$elem.show();
             } else {
-                location.hash = town.landing || 'board';
+                location.hash = nav.default;
             }
         }
     }
