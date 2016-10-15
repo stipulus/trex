@@ -1498,7 +1498,8 @@ var trex = (function () {
         Component:Component,
         Cookie:Cookie,
         Modal:Modal,
-        api:api
+        api:api,
+        nav:nav
     }
 })();
 
