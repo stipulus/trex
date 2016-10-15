@@ -1415,6 +1415,32 @@ var trex = (function () {
         return returns;
     })();
 
+    function titleOnEmpty($elem) {
+        $elem.focus(function () {
+            if($elem.val() === $elem.attr('title')) {
+                if($elem.passwordType) $elem.attr('type','password');
+                $elem.val('');
+                $elem.removeClass('titleOnEmpty');
+            }
+        }).blur(function () {
+            if($elem.val() === '') {
+                if($elem.passwordType) $elem.attr('type','text');
+                $elem.val($elem.attr('title'));
+                $elem.addClass('titleOnEmpty');
+            }
+        });
+
+        if($elem.attr('type') === 'password') {
+            $elem.passwordType = true;
+        }
+
+        if($elem.val() === '') {
+            if($elem.passwordType) $elem.attr('type','text');
+            $elem.val($elem.attr('title'));
+            $elem.addClass('titleOnEmpty');
+        }
+    }
+
     var nav = {
         init: function () {
             window.onhashchange = function() {
@@ -1499,7 +1525,8 @@ var trex = (function () {
         Cookie:Cookie,
         Modal:Modal,
         api:api,
-        nav:nav
+        nav:nav,
+        titleOnEmpty:titleOnEmpty
     }
 })();
 

@@ -51,3 +51,7 @@
 .modal .header i:hover {
 	transform: rotate(80deg);
 }
+
+input.titleOnEmpty {
+    color: gray;
+}
