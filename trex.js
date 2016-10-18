@@ -1461,7 +1461,7 @@ var trex = (function () {
             var arr = path.split('/');
             if(nav.paths[arr[0]]) {
                 if(arr[1]) {
-                    if(!nav.cacheSubPages && nav.cache[path]) delete null; 
+                    if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null; 
                     if(!nav.cache[path]) {
                         $('body > .loading').show();
                         var hurdle = new trex.Hurdle(function () {
