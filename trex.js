@@ -1451,6 +1451,7 @@ var trex = (function () {
         default:null,
         paths: {},
         cache: {},
+        cacheSubPages:true,
         addPath: function (name,Component) {
             if(!nav.default) nav.default = name;
             this.paths[name] = Component;
@@ -1460,7 +1461,7 @@ var trex = (function () {
             var arr = path.split('/');
             if(nav.paths[arr[0]]) {
                 if(arr[1]) {
-                    if(!nav.cache[path]) {
+                    if(!nav.cacheSubPages || !nav.cache[path]) {
                         $('body > .loading').show();
                         var hurdle = new trex.Hurdle(function () {
                             $('body > .loading').hide();
