@@ -1452,6 +1452,9 @@ var trex = (function () {
         paths: {},
         cache: {},
         cacheSubPages:true,
+        destroyCache: function (path) {
+            if(nav.cache[path]) delete nav.cache[path];
+        },
         addPath: function (name,Component) {
             if(!nav.default) nav.default = name;
             this.paths[name] = Component;
