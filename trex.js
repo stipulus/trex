@@ -1452,6 +1452,7 @@ var trex = (function () {
         paths: {},
         cache: {},
         cacheSubPages:true,
+        current: '',
         destroyCache: function (path) {
             if(nav.cache[path]) delete nav.cache[path];
         },
@@ -1484,6 +1485,7 @@ var trex = (function () {
                 if(typeof nav.cache[path].resume === 'function')
                     nav.cache[path].resume();
                 nav.cache[path].$elem.show();
+                nav.current = path;
             } else {
                 location.hash = nav.default;
             }
