@@ -1482,8 +1482,17 @@ var trex = (function () {
                     nav.cache[path] = new nav.paths[arr[0]](hurdle);
                     $('body section').append(nav.cache[path].$elem);
                 }
-                if(typeof nav.cache[path].resume === 'function')
-                    nav.cache[path].resume();
+                if(typeof nav.cache[path].resume === 'function') {
+                    var resumeHurdle = nav.cache[path].resume();
+                    if(resumeHurdle) {
+                        $('body > .loading').show();
+                        resumeHurdle.then(function () {
+                            $('body > .loading').hide();
+                        });
+                    }
+                }
+                if(typeof nav.cache[current].pause === 'function')
+                    nav.cache[current].pause();
                 nav.cache[path].$elem.show();
                 nav.current = path;
             } else {
