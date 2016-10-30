@@ -1491,8 +1491,8 @@ var trex = (function () {
                         });
                     }
                 }
-                if(current && nav.cache[current] && typeof nav.cache[current].pause === 'function')
-                    nav.cache[current].pause();
+                if(nav.current && nav.cache[nav.current] && typeof nav.cache[nav.current].pause === 'function')
+                    nav.cache[nav.current].pause();
                 nav.cache[path].$elem.show();
                 nav.current = path;
             } else {
