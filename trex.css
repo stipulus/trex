@@ -5,7 +5,7 @@
     top: 0;
     bottom: 0;
     background-color: rgba(0,0,0,0.45);
-    z-index: 2;
+    z-index: 5;
 }
 
 .modal {
@@ -15,7 +15,7 @@
     top: 40%;
     width: 400px;
     transform: translate(-50%, -50%);
-    z-index: 3;
+    z-index: 6;
     background-color: white;
     box-shadow: 0 0 10px black;
     max-width: 90%;
