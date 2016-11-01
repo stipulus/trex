@@ -1461,6 +1461,7 @@ var trex = (function () {
             this.paths[name] = Component;
         },
         to: function (path) {
+            if(path && path.length > 1 && path.charAt(0) == '/') path = path.substr(1);
             $('body section').children().hide();
             var arr = path.split('/');
             if(nav.paths[arr[0]]) {
