@@ -1474,6 +1474,8 @@ var trex = (function () {
                         });
                         nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3]);
                         $('body section').append(nav.cache[path].$elem);
+                    } else if(typeof nav.cache[path].resume !== 'function') {
+                        $('body > .loading').hide();
                     }
                 } else if(!nav.cache[path]) {
                     $('body > .loading').show();
@@ -1482,6 +1484,8 @@ var trex = (function () {
                     });
                     nav.cache[path] = new nav.paths[arr[0]](hurdle);
                     $('body section').append(nav.cache[path].$elem);
+                } else if(typeof nav.cache[path].resume !== 'function') {
+                    $('body > .loading').hide();
                 }
                 if(typeof nav.cache[path].resume === 'function') {
                     var resumeHurdle = nav.cache[path].resume();
