@@ -1491,7 +1491,10 @@ var trex = (function () {
                     });
                     nav.cache[path] = new nav.paths[arr[0]](hurdle);
                     $('body section').append(nav.cache[path].$elem);
-                } else if(typeof nav.cache[path].resume !== 'function') {
+                } else if(typeof nav.cache[path].resume === 'function') {
+                    if(typeof nav.cache[path].resume === 'function')
+                        resumeHurdle = nav.cache[path].resume();
+                } else {
                     $('body > .loading').hide();
                 }
                 if(typeof nav.cache[path].resume === 'function') {
