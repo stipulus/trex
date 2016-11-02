@@ -1465,12 +1465,16 @@ var trex = (function () {
             $('body section').children().hide();
             var arr = path.split('/');
             if(nav.paths[arr[0]]) {
+                var resumeHurdle;
                 if(arr[1]) {
                     if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null; 
                     if(!nav.cache[path]) {
                         $('body > .loading').show();
                         var hurdle = new trex.Hurdle(function () {
-                            $('body > .loading').hide();
+                            if(typeof nav.cache[path].resume === 'function')
+                                resumeHurdle = nav.cache[path].resume();
+                            else
+                                $('body > .loading').hide();
                         });
                         nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3]);
                         $('body section').append(nav.cache[path].$elem);
@@ -1480,7 +1484,10 @@ var trex = (function () {
                 } else if(!nav.cache[path]) {
                     $('body > .loading').show();
                     var hurdle = new trex.Hurdle(function () {
-                        $('body > .loading').hide();
+                        if(typeof nav.cache[path].resume === 'function')
+                            resumeHurdle = nav.cache[path].resume();
+                        else
+                            $('body > .loading').hide();
                     });
                     nav.cache[path] = new nav.paths[arr[0]](hurdle);
                     $('body section').append(nav.cache[path].$elem);
@@ -1488,7 +1495,7 @@ var trex = (function () {
                     $('body > .loading').hide();
                 }
                 if(typeof nav.cache[path].resume === 'function') {
-                    var resumeHurdle = nav.cache[path].resume();
+                    resumeHurdle = nav.cache[path].resume();
                     if(resumeHurdle) {
                         $('body > .loading').show();
                         resumeHurdle.then(function () {
