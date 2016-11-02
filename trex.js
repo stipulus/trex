@@ -1497,14 +1497,11 @@ var trex = (function () {
                 } else {
                     $('body > .loading').hide();
                 }
-                if(typeof nav.cache[path].resume === 'function') {
-                    resumeHurdle = nav.cache[path].resume();
-                    if(resumeHurdle) {
-                        $('body > .loading').show();
-                        resumeHurdle.then(function () {
-                            $('body > .loading').hide();
-                        });
-                    }
+                if(resumeHurdle) {
+                    $('body > .loading').show();
+                    resumeHurdle.then(function () {
+                        $('body > .loading').hide();
+                    });
                 }
                 if(nav.current && nav.cache[nav.current] && typeof nav.cache[nav.current].pause === 'function')
                     nav.cache[nav.current].pause();
