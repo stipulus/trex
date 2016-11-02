@@ -1471,10 +1471,7 @@ var trex = (function () {
                     if(!nav.cache[path]) {
                         $('body > .loading').show();
                         var hurdle = new trex.Hurdle(function () {
-                            if(typeof nav.cache[path].resume === 'function')
-                                resumeHurdle = nav.cache[path].resume();
-                            else
-                                $('body > .loading').hide();
+                            $('body > .loading').hide();
                         });
                         nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3]);
                         $('body section').append(nav.cache[path].$elem);
@@ -1484,24 +1481,19 @@ var trex = (function () {
                 } else if(!nav.cache[path]) {
                     $('body > .loading').show();
                     var hurdle = new trex.Hurdle(function () {
-                        if(typeof nav.cache[path].resume === 'function')
-                            resumeHurdle = nav.cache[path].resume();
-                        else
-                            $('body > .loading').hide();
+                        $('body > .loading').hide();
                     });
                     nav.cache[path] = new nav.paths[arr[0]](hurdle);
                     $('body section').append(nav.cache[path].$elem);
                 } else if(typeof nav.cache[path].resume === 'function') {
+                    $('body > .loading').show();
                     if(typeof nav.cache[path].resume === 'function')
                         resumeHurdle = nav.cache[path].resume();
+                        if(resumeHurdle) resumeHurdle.then(function () {
+                            $('body > .loading').hide();
+                        });
                 } else {
                     $('body > .loading').hide();
-                }
-                if(resumeHurdle) {
-                    $('body > .loading').show();
-                    resumeHurdle.then(function () {
-                        $('body > .loading').hide();
-                    });
                 }
                 if(nav.current && nav.cache[nav.current] && typeof nav.cache[nav.current].pause === 'function')
                     nav.cache[nav.current].pause();
