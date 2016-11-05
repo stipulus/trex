@@ -1460,40 +1460,65 @@ var trex = (function () {
             if(!nav.default) nav.default = name;
             this.paths[name] = Component;
         },
+        error: function (reason) {
+            console.error(reason);
+        },
         to: function (path) {
             if(path && path.length > 1 && path.charAt(0) == '/') path = path.substr(1);
             $('body section').children().hide();
             var arr = path.split('/');
             if(nav.paths[arr[0]]) {
+                $('body > .loading').show();
                 var resumeHurdle;
                 if(arr[1]) {
                     if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null; 
                     if(!nav.cache[path]) {
-                        $('body > .loading').show();
                         var hurdle = new trex.Hurdle(function () {
-                            $('body > .loading').hide();
+                            $('body > .loading').fadeOut();
+                        });
+                        hurdle.error(function (reason) {
+                            nav.error(reason);
                         });
                         nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3]);
                         $('body section').append(nav.cache[path].$elem);
-                    } else if(typeof nav.cache[path].resume !== 'function') {
-                        $('body > .loading').hide();
+                    } else if(typeof nav.cache[path].resume === 'function') {
+                        if(typeof nav.cache[path].resume === 'function')
+                        resumeHurdle = nav.cache[path].resume();
+                        if(resumeHurdle) {
+                            resumeHurdle.error(function (reason) {
+                                nav.error(reason);
+                            });
+                            resumeHurdle.then(function () {
+                                $('body > .loading').fadeOut();
+                            });
+                        } else {
+                            $('body > .loading').fadeOut();
+                        }
                     }
                 } else if(!nav.cache[path]) {
-                    $('body > .loading').show();
                     var hurdle = new trex.Hurdle(function () {
-                        $('body > .loading').hide();
+                        $('body > .loading').fadeOut();
+                    });
+                    hurdle.error(function (reason) {
+                        nav.error(reason);
                     });
                     nav.cache[path] = new nav.paths[arr[0]](hurdle);
                     $('body section').append(nav.cache[path].$elem);
                 } else if(typeof nav.cache[path].resume === 'function') {
-                    $('body > .loading').show();
                     if(typeof nav.cache[path].resume === 'function')
                         resumeHurdle = nav.cache[path].resume();
-                        if(resumeHurdle) resumeHurdle.then(function () {
-                            $('body > .loading').hide();
-                        });
+                        if(resumeHurdle) {
+                            resumeHurdle.error(function (reason) {
+                                nav.error(reason);
+                            });
+                            resumeHurdle.then(function () {
+                                $('body > .loading').hide();
+                            });
+                        } else {
+                            $('body > .loading').fadeOut();
+                        }
                 } else {
-                    $('body > .loading').hide();
+                    $('body > .loading').fadeOut();
                 }
                 if(nav.current && nav.cache[nav.current] && typeof nav.cache[nav.current].pause === 'function')
                     nav.cache[nav.current].pause();
