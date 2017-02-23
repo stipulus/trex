@@ -180,9 +180,11 @@ var trex = (function () {
         name:null,
         value:null,
         expire:5,
-        construct: function (name,value) {
+        path:null,
+        construct: function (name,value,path) {
             this.name = name;
             if(value) this.value = value;
+            this.path = path || '/';
         },
         get: function (request) {
             if(this.value === null) {
