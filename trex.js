@@ -524,8 +524,9 @@ var trex = (function () {
             $elem:null,
             useThread:false,
             hurdle:null,
-            template: {},
+            template: null,
             construct: function (parentHurdle) {
+                this.template = {};
                 var component = this;
                 if(parentHurdle && parentHurdle instanceof Hurdle) parentHurdle.set();
                 this.hurdle = new Hurdle(function () {
