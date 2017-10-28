@@ -1446,11 +1446,14 @@ var trex = (function () {
 
     var nav = {
         init: function () {
+            if(nav.$loading == null)
+                nav.$loading = $('body > .loading');
             window.onhashchange = function() {
                 nav.to(location.hash.substr(1));
             }
             nav.to(location.hash.substr(1));
         },
+        $loading:null,
         default:null,
         paths: {},
         cache: {},
@@ -1471,18 +1474,18 @@ var trex = (function () {
             $('body section').children().hide();
             var arr = path.split('/');
             if(nav.paths[arr[0]]) {
-                $('body > .loading').show();
+                nav.$loading.show();
                 var resumeHurdle;
                 if(arr[1]) {
                     if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null; 
                     if(!nav.cache[path]) {
                         var hurdle = new trex.Hurdle(function () {
-                            $('body > .loading').fadeOut();
+                            nav.$loading.fadeOut();
                         });
                         hurdle.error(function (reason) {
                             nav.error(reason);
                         });
-                        nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3],arr[4]);
+                        nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3]);
                         $('body section').append(nav.cache[path].$elem);
                     } else if(typeof nav.cache[path].resume === 'function') {
                         if(typeof nav.cache[path].resume === 'function')
@@ -1492,15 +1495,15 @@ var trex = (function () {
                                 nav.error(reason);
                             });
                             resumeHurdle.then(function () {
-                                $('body > .loading').fadeOut();
+                                nav.$loading.fadeOut();
                             });
                         } else {
-                            $('body > .loading').fadeOut();
+                            nav.$loading.fadeOut();
                         }
                     }
                 } else if(!nav.cache[path]) {
                     var hurdle = new trex.Hurdle(function () {
-                        $('body > .loading').fadeOut();
+                        nav.$loading.fadeOut();
                     });
                     hurdle.error(function (reason) {
                         nav.error(reason);
@@ -1515,13 +1518,13 @@ var trex = (function () {
                                 nav.error(reason);
                             });
                             resumeHurdle.then(function () {
-                                $('body > .loading').hide();
+                                nav.$loading.hide();
                             });
                         } else {
-                            $('body > .loading').fadeOut();
+                            nav.$loading.fadeOut();
                         }
                 } else {
-                    $('body > .loading').fadeOut();
+                    nav.$loading.fadeOut();
                 }
                 if(nav.current && nav.cache[nav.current] && typeof nav.cache[nav.current].pause === 'function')
                     nav.cache[nav.current].pause();
