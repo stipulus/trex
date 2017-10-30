@@ -1500,6 +1500,8 @@ var trex = (function () {
                         } else {
                             nav.$loading.fadeOut();
                         }
+                    } else {
+                        nav.$loading.fadeOut();
                     }
                 } else if(!nav.cache[path]) {
                     var hurdle = new trex.Hurdle(function () {
