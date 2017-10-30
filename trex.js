@@ -1475,6 +1475,9 @@ var trex = (function () {
             var arr = path.split('/');
             if(nav.paths[arr[0]]) {
                 nav.$loading.show();
+                var modals = $('.modal');
+                if(typeof modals.modal === 'function')
+                    modals.modal('hide');
                 var resumeHurdle;
                 if(arr[1]) {
                     if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null; 
@@ -1513,18 +1516,17 @@ var trex = (function () {
                     nav.cache[path] = new nav.paths[arr[0]](hurdle);
                     $('body section').append(nav.cache[path].$elem);
                 } else if(typeof nav.cache[path].resume === 'function') {
-                    if(typeof nav.cache[path].resume === 'function')
-                        resumeHurdle = nav.cache[path].resume();
-                        if(resumeHurdle) {
-                            resumeHurdle.error(function (reason) {
-                                nav.error(reason);
-                            });
-                            resumeHurdle.then(function () {
-                                nav.$loading.hide();
-                            });
-                        } else {
-                            nav.$loading.fadeOut();
-                        }
+                    resumeHurdle = nav.cache[path].resume();
+                    if(resumeHurdle) {
+                        resumeHurdle.error(function (reason) {
+                            nav.error(reason);
+                        });
+                        resumeHurdle.then(function () {
+                            nav.$loading.hide();
+                        });
+                    } else {
+                        nav.$loading.fadeOut();
+                    }
                 } else {
                     nav.$loading.fadeOut();
                 }
