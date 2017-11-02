@@ -1488,7 +1488,7 @@ var trex = (function () {
                         hurdle.error(function (reason) {
                             nav.error(reason);
                         });
-                        nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3]);
+                        nav.cache[path] = new nav.paths[arr[0]](hurdle,arr[1],arr[2],arr[3],arr[4],arr[5],arr[6]);
                         $('body section').append(nav.cache[path].$elem);
                     } else if(typeof nav.cache[path].resume === 'function') {
                         if(typeof nav.cache[path].resume === 'function')
