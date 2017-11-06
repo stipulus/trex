@@ -533,6 +533,9 @@ var trex = (function () {
                     component.applyTemplate();
                     if(parentHurdle && parentHurdle instanceof Hurdle) parentHurdle.complete();
                 });
+                this.hurdle.error(function (err) {
+                    Component.onError(err);
+                });
                 this.hurdle.set();
                 if(typeof this.tagName === 'string') this.$elem = $(this.tagName);
                 else this.$elem = $('<div></div>');
@@ -580,6 +583,9 @@ var trex = (function () {
         });
         if(typeof exports !== 'undefined') {
             exports.prototype = Component.prototype;
+        }
+        Component.onError = function (err) {
+            console.log('override trex.Component.onError to remove this message', JSON.stringify(err));
         }
         return Component;
     })();
