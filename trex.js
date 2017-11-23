@@ -1488,7 +1488,7 @@ var trex = (function () {
                 var resumeHurdle;
                 if(arr[1]) {
                     if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null;
-                    if(!nav.cache[path] || !nav.paths[path].prototype.cache) {
+                    if(!nav.cache[path] || !nav.paths[arr[0]].prototype.cache) {
                         var hurdle = new trex.Hurdle(function () {
                             nav.$loading.fadeOut();
                         });
@@ -1513,7 +1513,7 @@ var trex = (function () {
                     } else {
                         nav.$loading.fadeOut();
                     }
-                } else if(!nav.cache[path] || !nav.paths[path].prototype.cache) {
+                } else if(!nav.cache[path] || !nav.paths[arr[0]].prototype.cache) {
                     var hurdle = new trex.Hurdle(function () {
                         nav.$loading.fadeOut();
                     });
