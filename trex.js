@@ -525,6 +525,7 @@ var trex = (function () {
             useThread:false,
             hurdle:null,
             template: null,
+            cache: true,
             construct: function (parentHurdle) {
                 this.template = {};
                 var component = this;
@@ -1486,8 +1487,8 @@ var trex = (function () {
                     modals.modal('hide');
                 var resumeHurdle;
                 if(arr[1]) {
-                    if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null; 
-                    if(!nav.cache[path]) {
+                    if(!nav.cacheSubPages && nav.cache[path]) nav.cache[path] = null;
+                    if(!nav.cache[path] || !nav.paths[path].prototype.cache) {
                         var hurdle = new trex.Hurdle(function () {
                             nav.$loading.fadeOut();
                         });
@@ -1512,7 +1513,7 @@ var trex = (function () {
                     } else {
                         nav.$loading.fadeOut();
                     }
-                } else if(!nav.cache[path]) {
+                } else if(!nav.cache[path] || !nav.paths[path].prototype.cache) {
                     var hurdle = new trex.Hurdle(function () {
                         nav.$loading.fadeOut();
                     });
