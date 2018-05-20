@@ -1,4 +1,4 @@
-Copyright (c) 2016, Tyler W. Chase-Nason
+Copyright (c) 2018, Tyler W. Chase-Nason
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -10,9 +10,9 @@ modification, are permitted provided that the following conditions are met:
    documentation and/or other materials provided with the distribution.
 3. All advertising materials mentioning features or use of this software
    must display the following acknowledgement:
-   This product includes software developed by the <organization>.
-4. Neither the name of the <organization> nor the
-   names of its contributors may be used to endorse or promote products
+   This product includes software developed by Tyle W. Chase-Nason.
+4. Neither the name of Tyle W. Chase-Nason nor the
+   names of their contributors may be used to endorse or promote products
    derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY Tyler W. Chase-Nason ''AS IS'' AND ANY
